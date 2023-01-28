@@ -19,12 +19,23 @@ document.addEventListener('DOMContentLoaded' , () => {
 })
 
 
-function consultarCriptomonedas() {
+
+async function consultarCriptomonedas() {
     const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=40&tsym=USD';
     fetch(url)
     .then(respuesta => respuesta.json())
     .then(resultado => obtenerCriptomonedas(resultado.Data))
     .then( criptomonedas => selectCriptomondas(criptomonedas))
+
+    try {
+        const respuesta = await fetch(url);
+        const resultado = await respuesta.json();
+        const criptomonedas = await selectCriptomondas(resultado.Data);
+        selectCriptomondas(criptomonedas);
+        
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function selectCriptomondas(criptomonedas) {
